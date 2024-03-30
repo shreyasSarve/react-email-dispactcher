@@ -30,7 +30,7 @@ export default function Address() {
     const checkIfColumnExist =  firstElementOfCSV !== "" && firstElementOfCSV !== null && firstElementOfCSV !== undefined 
     
     if(!checkIfColumnExist){
-      alert("PLease make sure Column exist & contains meaningful data")
+      alert("Please make sure Column exist & contains meaningful data")
       return
     }
 
@@ -49,6 +49,7 @@ export default function Address() {
   };
 
   const toAddressHandler = (e) => {
+    if(e.target.files.length===0) return
     const file = e.target.files[0];
     Papa.parse(file, {
       header: true,

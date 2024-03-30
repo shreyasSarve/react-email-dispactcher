@@ -5,6 +5,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 export default function Address() {
   const [toAddress, setToAddress] = useState([]);
   const [emailColumn,setEmailColumn] = useState("")
+  const [isFileSelected,setIsFileSelected] = useState(false)
 
   const [fromAddress, setFromAddress] = useState(
     sessionStorage.getItem("From address")
@@ -14,6 +15,11 @@ export default function Address() {
 
   const submitHandler = (e) => {
     const toAddressData = [];
+
+    if(!isFileSelected){
+      alert("Please Select .csv file")
+      return;
+    }
 
     if(emailColumn === "" || emailColumn==null || emailColumn === undefined){
       alert("Please fill column name")
@@ -49,12 +55,15 @@ export default function Address() {
   };
 
   const toAddressHandler = (e) => {
-    if(e.target.files.length===0) return
+    if(e.target.files.length===0) {
+      setIsFileSelected(false)
+      return
+    }
+    setIsFileSelected(true)
     const file = e.target.files[0];
     Papa.parse(file, {
       header: true,
       complete: (result) => {
-        console.log('result :>> ', result);
         setToAddress(result.data);
       },
     });
